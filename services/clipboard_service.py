@@ -12,14 +12,12 @@ class ClipboardService(threading.Thread):
         threading.Thread.__init__(self)
 
     def get_clipboard_history(self):
-        return self.clipboard_history
+        return list(reversed(self.clipboard_history))
 
     def set_clipboard(self, clipboard_history_index):
-        clipboard_dict = self.clipboard_history[clipboard_history_index]
-        print(clipboard_dict)
+        clipboard_dict = list(reversed(self.clipboard_history))[clipboard_history_index]
         pyperclip.copy(clipboard_dict.get('text'))
         return clipboard_dict.get('text')
-
 
     def run(self):
         while True:
