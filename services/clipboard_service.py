@@ -1,11 +1,3 @@
-import os
-import sys
-
-try:
-    base_path = sys._MEIPASS
-except Exception:
-    base_path = os.path.abspath(".")
-
 import datetime
 import threading
 
