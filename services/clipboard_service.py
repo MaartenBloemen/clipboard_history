@@ -26,7 +26,7 @@ class ClipboardService(threading.Thread):
         while True:
             clipboard_text = pyperclip.paste()
             time = datetime.datetime.now().time()
-            if self.__last_clipboard_text != clipboard_text:
+            if self.__last_clipboard_text != clipboard_text and clipboard_text:
                 self.clipboard_history.insert(0, {'text': clipboard_text, 'time': time.strftime('%H:%M:%S'),
                                                   'date': time.strftime('%d/%m/%Y')})
                 self.__last_clipboard_text = clipboard_text

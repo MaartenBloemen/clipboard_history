@@ -4,7 +4,7 @@ import sys
 try:
     base_path = sys._MEIPASS
 except Exception:
-    base_path = os.path.abspath(".")
+    base_path = os.path.abspath('.')
 
 from flask import Flask, render_template
 from flask_cors import CORS
@@ -32,4 +32,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8001)
+    app.run(host='localhost', port=8001)
