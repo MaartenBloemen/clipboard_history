@@ -1,14 +1,15 @@
 import datetime
 import threading
 
-import pyperclip
+from services import pyperclip_fixed as pyperclip
 
 
 class ClipboardService(threading.Thread):
-    def __init__(self):
+    def __init__(self, max_length=-1):
         self.running = True
         self.clipboard_history = []
         self.__last_clipboard_text = ''
+        self.__max_length = max_length
 
         threading.Thread.__init__(self)
 
@@ -30,8 +31,10 @@ class ClipboardService(threading.Thread):
     def run(self):
         while self.running:
             clipboard_text = pyperclip.paste()
-            time = datetime.datetime.now().time()
+            now = datetime.datetime.now()
             if self.__last_clipboard_text != clipboard_text and clipboard_text:
-                self.clipboard_history.insert(0, {'text': clipboard_text, 'time': time.strftime('%H:%M:%S'),
-                                                  'date': time.strftime('%d/%m/%Y')})
+                self.clipboard_history.insert(0, {'text': clipboard_text, 'time': now.time().strftime('%H:%M:%S'),
+                                                  'date': now.date().strftime('%d/%m/%Y')})
+                if self.__max_length != -1:
+                    self.clipboard_history = self.clipboard_history[:self.__max_length]
                 self.__last_clipboard_text = clipboard_text
