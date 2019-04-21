@@ -6,6 +6,7 @@ import pyperclip
 
 class ClipboardService(threading.Thread):
     def __init__(self):
+        self.running = True
         self.clipboard_history = []
         self.__last_clipboard_text = ''
 
@@ -22,8 +23,12 @@ class ClipboardService(threading.Thread):
     def clear_clipboard_history(self):
         self.clipboard_history = []
 
+    def stop(self):
+        self.running = False
+        threading.Thread.join(self, 1)
+
     def run(self):
-        while True:
+        while self.running:
             clipboard_text = pyperclip.paste()
             time = datetime.datetime.now().time()
             if self.__last_clipboard_text != clipboard_text and clipboard_text:
